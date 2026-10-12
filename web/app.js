@@ -64,7 +64,7 @@ function markdown(texto) {
 
 function tarjetaHerramienta(t) {
   const det = document.createElement("details")
-  det.className = "tool"
+  det.className = `tool ${t.ok ? "ok" : "ko"}`
   const sum = document.createElement("summary")
   const badge = document.createElement("span")
   badge.className = `badge ${t.ok ? "ok" : "ko"}`
@@ -85,21 +85,39 @@ function tarjetaHerramienta(t) {
   return det
 }
 
+function avatar(esUsuario) {
+  const a = document.createElement("span")
+  a.className = `avatar ${esUsuario ? "persona" : "agente"}`
+  a.setAttribute("aria-hidden", "true")
+  a.textContent = esUsuario ? "Tú" : "OC"
+  return a
+}
+
 function agregarMensaje(rol, texto, extra = {}) {
   chat.querySelector(".bienvenida")?.remove()
+  const esUsuario = rol === "usuario"
   const div = document.createElement("article")
   div.className = `mensaje ${rol}`
-  if (rol === "usuario") div.textContent = texto
+  const burbuja = document.createElement("div")
+  burbuja.className = "burbuja"
+  if (esUsuario) burbuja.textContent = texto
   else {
+    if (extra.needsConfirmation) {
+      div.classList.add("pide")
+      const sello = document.createElement("span")
+      sello.className = "sello"
+      sello.textContent = "⏸ Esperando tu confirmación"
+      burbuja.append(sello)
+    }
     if (extra.toolCalls?.length) {
       const lista = document.createElement("div")
       lista.className = "herramientas"
       for (const t of extra.toolCalls) lista.append(tarjetaHerramienta(t))
-      div.append(lista)
+      burbuja.append(lista)
     }
-    div.append(markdown(texto))
-    if (extra.needsConfirmation) div.classList.add("pide")
+    burbuja.append(markdown(texto))
   }
+  div.append(avatar(esUsuario), burbuja)
   chat.append(div)
   div.scrollIntoView({ behavior: "smooth", block: "start" })
 }
@@ -170,9 +188,10 @@ function nuevaSesion() {
 async function iniciar() {
   try {
     const h = await pedir("/api/health")
-    $("estado").textContent = h.llm_configurado
-      ? `Modelo: ${h.provider} · ${h.model}`
-      : "⚠️ Proveedor LLM sin configurar en el servidor"
+    const estado = $("estado")
+    estado.textContent = h.llm_configurado ? `${h.model}` : "LLM sin configurar"
+    estado.dataset.estado = h.llm_configurado ? "ok" : "aviso"
+    estado.title = h.llm_configurado ? `Proveedor: ${h.provider}` : "Falta ANTHROPIC_API_KEY en el servidor"
     if (h.requiere_clave && !claveAcceso) {
       claveAcceso = window.prompt("Este agente requiere clave de acceso:") || ""
       almacen.escribir("accessKey", claveAcceso)
@@ -181,6 +200,7 @@ async function iniciar() {
     const chips = $("chips")
     const demo = document.createElement("button")
     demo.type = "button"
+    demo.className = "destacado"
     demo.textContent = "▶ Prompt de demo (sol-004)"
     demo.onclick = () => enviar(PROMPT_DEMO)
     chips.append(demo)
@@ -193,7 +213,8 @@ async function iniciar() {
     }
     await cargarHistorial()
   } catch (e) {
-    $("estado").textContent = `⚠️ ${e.message}`
+    $("estado").textContent = e.message
+    $("estado").dataset.estado = "aviso"
   }
 }
 

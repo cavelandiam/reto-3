@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Órdenes de Compra SAP</title>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="/styles.css" />
     <script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js" defer></script>
@@ -12,59 +18,98 @@
   </head>
   <body>
     <header class="barra">
-      <div class="marca">
-        <span class="logo" aria-hidden="true">OC</span>
-        <div>
-          <h1>Agente de órdenes de compra</h1>
-          <p id="estado" class="estado">Conectando…</p>
+      <div class="barra-interior">
+        <div class="marca">
+          <span class="logo" aria-hidden="true">
+            <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M6 2h9l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" />
+              <path d="M14 2v6h6M8 13h8M8 17h5" />
+            </svg>
+          </span>
+          <div class="titulos">
+            <h1>Agente de órdenes de compra</h1>
+            <p class="autor-app">Desarrollado por Cristian Velandia</p>
+          </div>
         </div>
-      </div>
-      <div class="acciones">
-        <button id="nueva" class="secundario" type="button">Nueva sesión</button>
-        <button id="reset" class="secundario" type="button" title="Borra out/ (OC, control y sesiones)">Reiniciar demo</button>
+        <div class="acciones">
+          <span id="estado" class="estado" data-estado="cargando">Conectando…</span>
+          <button id="nueva" class="fantasma" type="button">Nueva sesión</button>
+          <button id="reset" class="fantasma" type="button" title="Borra out/ (OC, control y sesiones)">
+            Reiniciar demo
+          </button>
+        </div>
       </div>
     </header>
 
     <main class="contenedor">
       <section id="chat" class="chat" aria-live="polite">
         <div class="bienvenida">
-          <h2>¿Qué solicitud procesamos?</h2>
-          <p>
-            Leo el paquete (solicitud, cotización, aprobación y factura), lo valido contra los maestros, te muestro la
-            OC como quedaría en SAP y la creo cuando todo cumple. Las excepciones te las pregunto.
+          <p class="etiqueta">Asistente SAP · Compras</p>
+          <h2>¿Qué solicitud procesamos hoy?</h2>
+          <p class="intro">
+            Leo el paquete de la compra, lo valido contra los maestros, te muestro la OC tal como quedaría en SAP y la
+            creo cuando todo cumple. Las excepciones te las pregunto a ti.
           </p>
+          <ul class="pasos">
+            <li>
+              <span class="icono">1</span>
+              <div><strong>Lee y valida</strong><small>Solicitud, cotización, aprobación y factura · reglas RC1–RC10</small></div>
+            </li>
+            <li>
+              <span class="icono">2</span>
+              <div><strong>Arma la OC</strong><small>Payload SAP con trazabilidad y evidencia SHA-256</small></div>
+            </li>
+            <li>
+              <span class="icono">3</span>
+              <div><strong>Crea con control</strong><small>Bloqueos con acción sugerida y confirmación humana</small></div>
+            </li>
+          </ul>
         </div>
       </section>
 
       <div id="pensando" class="pensando" hidden>
-        <span class="punto"></span><span class="punto"></span><span class="punto"></span>
-        <span>Pensando y consultando herramientas…</span>
+        <span class="avatar agente" aria-hidden="true">OC</span>
+        <div class="pensando-burbuja">
+          <span class="punto"></span><span class="punto"></span><span class="punto"></span>
+          <span>Consultando herramientas…</span>
+        </div>
       </div>
 
-      <section id="banner" class="banner" hidden role="alert">
-        <div>
-          <strong>Confirmación requerida</strong>
-          <p id="banner-detalle"></p>
-        </div>
-        <div class="banner-botones">
-          <button id="confirmar" type="button">Confirmar</button>
-          <button id="cancelar" class="secundario" type="button">Cancelar</button>
-        </div>
-      </section>
+      <div class="pie">
+        <section id="banner" class="banner" hidden role="alert">
+          <div class="banner-texto">
+            <span class="banner-icono" aria-hidden="true">!</span>
+            <div>
+              <strong>Confirmación requerida</strong>
+              <p id="banner-detalle"></p>
+            </div>
+          </div>
+          <div class="banner-botones">
+            <button id="confirmar" type="button">Confirmar</button>
+            <button id="cancelar" class="secundario" type="button">Cancelar</button>
+          </div>
+        </section>
 
-      <div id="chips" class="chips"></div>
+        <div id="chips" class="chips"></div>
 
-      <form id="form" class="entrada">
-        <textarea
-          id="mensaje"
-          rows="2"
-          maxlength="4000"
-          placeholder="Ej.: Procesa la solicitud sol-001"
-          aria-label="Mensaje"
-          required
-        ></textarea>
-        <button id="enviar" type="submit">Enviar</button>
-      </form>
+        <form id="form" class="entrada">
+          <textarea
+            id="mensaje"
+            rows="2"
+            maxlength="4000"
+            placeholder="Escribe, por ejemplo: Procesa la solicitud sol-001"
+            aria-label="Mensaje"
+            required
+          ></textarea>
+          <button id="enviar" type="submit" aria-label="Enviar">
+            <svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2">
+              <path d="M5 12h14M13 6l6 6-6 6" />
+            </svg>
+            <span>Enviar</span>
+          </button>
+        </form>
+        <p class="nota">Enter para enviar · Shift + Enter para salto de línea</p>
+      </div>
     </main>
   </body>
 </html>

@@ -242,12 +242,19 @@ Qué falta para producción: adaptador SAP real (§6) con su tabla de idempotenc
 
 ## 11. Uso de IA
 
-<!-- COMPLETAR POR EL CANDIDATO: qué revisaste, qué descartaste y por qué -->
+Se usó **Claude (Anthropic)** en todo el ciclo, en dos momentos distintos:
 
-Borrador (a revisar y completar con la verdad):
+**1. Entendimiento del problema, antes de escribir código.** El primer uso de Claude no fue programar, sino entender el reto completo: el PRD, los fixtures y los maestros, caso por caso. Con ese análisis se verificaron a mano los resultados esperados de los seis casos (por ejemplo, que en sol-003 fvargas sí es aprobador, pero de CC-3030, y que el tope máximo de CC-2020 es 30 M; o que la aprobación de sol-004 dice "25 millones"). También se detectaron ambigüedades del PRD (el error tipográfico del árbol de carpetas, contra qué tope evaluar RC3, si la OC de sol-004 va por el valor de la solicitud o de la cotización). El resultado fue un documento de instrucciones propio (`INSTRUCCIONES-RETO-03.md`) con el stack, la estructura, la especificación de cada regla, la tabla de resultados esperados, el plan por fases con su criterio de terminado y una matriz de cumplimiento contra el PRD.
 
-- **Claude Code (Anthropic, modelo Claude Opus 5.5)** para generar la estructura del repositorio, el código, las pruebas y la documentación, siguiendo un documento de instrucciones propio (`INSTRUCCIONES-RETO-03.md`) derivado del PRD.
-- Decisiones que la IA propuso y se ajustaron durante el desarrollo: la inferencia de unidad (`/mes(es)?/` marcaba MES en sol-001) se cambió para exigir que la mención acompañe a la cantidad; el recorte de resultados antiguos del historial se descartó porque invalida la caché y los bloques de razonamiento del modelo.
+**2. Implementación con Claude Code (modelo Claude Opus 5.5).** Siguiendo ese documento fase por fase, Claude Code generó el código, las pruebas, la demo, el front, los scripts de verificación y despliegue, y esta documentación. Cada fase debía cerrar con su prueba en verde antes de pasar a la siguiente, y quedó en un commit propio. El control de calidad no dependió de la palabra de la IA: pruebas golden contra la tabla de resultados esperados, `bun run verify` (11 comprobaciones) y una prueba con el modelo real (`bun run smoke:llm`) que verifica el comportamiento del PRD §11.
+
+**Qué se corrigió o descartó de lo propuesto, y por qué:**
+
+- **Inferencia de unidad.** El documento de instrucciones proponía `/mes(es)?/` para la unidad MES, pero eso marcaba sol-001 ("vigencia 12 meses", 120 licencias) como MES. Se cambió para exigir que la mención acompañe a la cantidad.
+- **Recorte del historial enviado al modelo.** Estaba en el plan para ahorrar tokens y se descartó: editar turnos previos invalida la caché de prompts y los bloques de razonamiento del modelo. El costo se controla con topes y caché.
+- **Diferencia en RC5.** En la prueba con el modelo real, el grounding detectó que el modelo restaba montos por su cuenta ("1.500.000 por debajo de la cotización"). Se corrigió en la herramienta, que ahora entrega la diferencia calculada, en lugar de confiar solo en el prompt.
+- **Confirmación humana.** Se descartó dejarla solo en el prompt: se impuso en el servidor, porque es una regla de control y no de estilo.
+- **Despliegue y claves.** La IA no manejó la clave del proveedor: se configuró en `.env` local y en el panel de Render, fuera del chat y del repositorio.
 
 ## 12. Riesgos
 

@@ -53,7 +53,7 @@ describe("golden: resultados esperados por caso (tabla 5.3)", () => {
     const s4 = detalle("sol-004").confirmaciones[0]
     expect(s4?.detalle).toContain("25.000.000")
     expect(s4?.detalle).toContain("26.500.000")
-    expect(s4?.detalle).toContain("6,00 %")
+    expect(s4?.detalle).toContain("diferencia 1.500.000 (6,00 %")
     expect(s4?.detalle).toContain("La aprobación menciona 25.000.000")
     expect(detalle("sol-005").confirmaciones[0]?.detalle).toBe(
       "Factura FC-88231 del 2026-08-10 es anterior a la solicitud del 2026-08-27: OC retroactiva",

@@ -232,13 +232,16 @@ export const rc5: Regla = (p) => {
   const mencionado = p.aprobacion ? montoMencionado(p.aprobacion.texto) : null
   const nota = mencionado !== null ? ` La aprobación menciona ${formatoMonto(mencionado)}.` : ""
   const ref = p.cotizacion.numero ? ` ${p.cotizacion.numero}` : ""
+  // La diferencia absoluta se entrega calculada para que el modelo no tenga que restar.
+  const absoluta = cot - sol
   return confirmacion(
     "RC5",
-    `Solicitud ${formatoMonto(sol)} vs cotización${ref} ${formatoMonto(cot)}: diferencia ${formatoPorcentaje(diferencia)} (tolerancia ${formatoPorcentaje(TOLERANCIA_COTIZACION)}).${nota}`,
+    `Solicitud ${formatoMonto(sol)} vs cotización${ref} ${formatoMonto(cot)}: diferencia ${formatoMonto(absoluta)} (${formatoPorcentaje(diferencia)}; tolerancia ${formatoPorcentaje(TOLERANCIA_COTIZACION)}).${nota}`,
     `Confirma crear la OC por el valor de la solicitud (${formatoMonto(sol)}) o pide al solicitante ajustar la solicitud a la cotización`,
     {
       solicitud: sol,
       cotizacion: cot,
+      diferencia: absoluta,
       diferencia_pct: Number((diferencia * 100).toFixed(2)),
       aprobacion_menciona: mencionado,
     },

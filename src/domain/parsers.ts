@@ -27,15 +27,30 @@ const SUFIJOS_SOCIETARIOS = /\b(s a s|sas|ltda|s a|sa)\b/g
 
 /** "TecnoSuministros S.A.S." → "tecnosuministros". */
 export function normalizarNombre(nombre: string): string {
-  return nombre
+  return normalizarTexto(nombre).replace(SUFIJOS_SOCIETARIOS, " ").replace(/\s+/g, " ").trim()
+}
+
+/** Min\u00fasculas, sin tildes ni puntuaci\u00f3n, espacios colapsados: "Servicios Generales" \u2192 "servicios generales". */
+export function normalizarTexto(texto: string): string {
+  return texto
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
     .toLowerCase()
     .replace(/[^a-z0-9\s]/g, " ")
     .replace(/\s+/g, " ")
-    .replace(SUFIJOS_SOCIETARIOS, " ")
-    .replace(/\s+/g, " ")
     .trim()
+}
+
+/** 25000000 \u2192 "25.000.000"; 1250.5 \u2192 "1.250,5" (formato colombiano, determinista). */
+export function formatoMonto(valor: number): string {
+  const [entero = "0", decimales] = Math.abs(valor).toString().split(".")
+  const miles = entero.replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+  return `${valor < 0 ? "-" : ""}${miles}${decimales ? `,${decimales}` : ""}`
+}
+
+/** 0.06 \u2192 "6,00 %". */
+export function formatoPorcentaje(fraccion: number): string {
+  return `${(fraccion * 100).toFixed(2).replace(".", ",")} %`
 }
 
 export function normalizarEmail(email: string): string {

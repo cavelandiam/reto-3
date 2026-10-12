@@ -1,0 +1,53 @@
+{
+  "sol-001": {
+    "apta": true,
+    "bloqueos": [],
+    "confirmaciones": [],
+    "derivados": {},
+    "proveedor_resuelto_por": "por_nit_solicitud",
+    "retroactiva": false
+  },
+  "sol-002": {
+    "apta": false,
+    "bloqueos": ["RC1"],
+    "confirmaciones": [],
+    "derivados": {},
+    "proveedor_resuelto_por": null,
+    "retroactiva": false
+  },
+  "sol-003": {
+    "apta": false,
+    "bloqueos": ["RC2", "RC3"],
+    "confirmaciones": [],
+    "derivados": {},
+    "proveedor_resuelto_por": "por_nit_solicitud",
+    "retroactiva": false
+  },
+  "sol-004": {
+    "apta": true,
+    "bloqueos": [],
+    "confirmaciones": ["RC5"],
+    "derivados": {},
+    "proveedor_resuelto_por": "por_nit_solicitud",
+    "retroactiva": false
+  },
+  "sol-005": {
+    "apta": true,
+    "bloqueos": [],
+    "confirmaciones": ["RC8"],
+    "derivados": {},
+    "proveedor_resuelto_por": "por_nit_solicitud",
+    "retroactiva": true
+  },
+  "sol-006": {
+    "apta": true,
+    "bloqueos": [],
+    "confirmaciones": ["RC6"],
+    "derivados": {
+      "indicador_iva": { "valor": "C1", "fuente": "maestro.proveedores" },
+      "condiciones_pago": { "valor": "Z030", "fuente": "maestro.proveedores" }
+    },
+    "proveedor_resuelto_por": "por_nit_cotizacion",
+    "retroactiva": false
+  }
+}

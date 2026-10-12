@@ -31,7 +31,8 @@ test("modulo/skill/ordenes-compra/SKILL.md = frontmatter + src/knowledge/ordenes
 
 test("modulo/tools/oc.ts re-exporta los mismos objetos de herramienta", () => {
   expect(Object.keys(moduloOc).sort()).toEqual(Object.keys(oc).sort())
-  for (const [nombre, h] of Object.entries(oc)) expect(moduloOc[nombre as keyof typeof moduloOc]).toBe(h)
+  const delModulo: Record<string, unknown> = { ...moduloOc }
+  for (const [nombre, h] of Object.entries(oc)) expect(delModulo[nombre]).toBe(h)
 })
 
 test("las herramientas del módulo se usan sin el servidor", async () => {

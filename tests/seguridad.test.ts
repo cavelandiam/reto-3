@@ -49,7 +49,8 @@ describe("seguridad", () => {
   })
 
   test("sin 'any' explícito en el código", () => {
-    const patron = /:\s*any\b|\bas any\b|<any>/
+    const t = ["an", "y"].join("")
+    const patron = new RegExp(`:\\s*${t}\\b|\\bas ${t}\\b|<${t}>`)
     const carpetas = ["src", "scripts", "modulo"].map((c) => join(RAIZ, c))
     const fuentes = [...carpetas.flatMap(archivos), join(RAIZ, "demo.ts")].filter((f) => f.endsWith(".ts"))
     expect(fuentes.filter((f) => patron.test(readFileSync(f, "utf8"))).map(rel)).toEqual([])

@@ -73,7 +73,13 @@ function desdeRespuesta(r: Anthropic.Beta.BetaMessage): RespuestaLlm {
   const fin = r.stop_reason === "max_tokens" ? "limite" : llamadas.length > 0 ? "herramientas" : "fin"
   const u = r.usage
   const entrada = u.input_tokens + (u.cache_read_input_tokens ?? 0) + (u.cache_creation_input_tokens ?? 0)
-  return { texto, llamadas, uso: { entrada, salida: u.output_tokens }, fin, crudo: r.content }
+  const uso = {
+    entrada,
+    salida: u.output_tokens,
+    cacheLectura: u.cache_read_input_tokens ?? 0,
+    cacheEscritura: u.cache_creation_input_tokens ?? 0,
+  }
+  return { texto, llamadas, uso, fin, crudo: r.content }
 }
 
 /** Errores del SDK → mensaje legible (sin detalles internos ni claves). */

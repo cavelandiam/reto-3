@@ -18,7 +18,8 @@ export type MensajeLlm =
 
 export type DefinicionHerramienta = { nombre: string; descripcion: string; esquema: Record<string, unknown> }
 
-export type UsoTokens = { entrada: number; salida: number }
+/** Tokens de una llamada. `entrada` incluye los leídos/escritos en caché, que se detallan aparte. */
+export type UsoTokens = { entrada: number; salida: number; cacheLectura?: number; cacheEscritura?: number }
 
 export type RespuestaLlm = {
   texto: string

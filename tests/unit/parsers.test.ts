@@ -48,6 +48,8 @@ describe("normalizadores", () => {
     expect(inferirUnidad("Bolsa de 100 horas de arquitectura")).toBe("H")
     expect(inferirUnidad("Soporte mensual")).toBe("MES")
     expect(inferirUnidad("Diademas con micrófono")).toBe("UN")
+    expect(inferirUnidad("Renovación licencias antivirus 120 puestos, vigencia 12 meses", 120)).toBe("UN")
+    expect(inferirUnidad("Soporte 6 meses", 6)).toBe("MES")
   })
   test("monto mencionado en texto libre", () => {
     expect(montoMencionado("Aprobado por 25 millones según la solicitud.")).toBe(25000000)

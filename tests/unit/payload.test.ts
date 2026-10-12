@@ -35,6 +35,7 @@ describe("payload de la OC", () => {
     expect(o.referencia.cotizacion_ref).toBe("COT-TS-2026-0451")
     expect(o.posiciones[0]?.descripcion).toBe("Renovación licencias antivirus")
     expect(o.excepciones).toEqual([])
+    expect(o.posiciones[0]?.unidad).toBe("UN")
     const desc = r.data.campos.find((c) => c.ruta === "posiciones[0].descripcion")
     expect(desc?.transformacion).toContain("truncado a 40")
     expect(desc?.original).toContain("120 puestos")

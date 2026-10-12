@@ -81,9 +81,9 @@ function trazarPosicion(p: Paquete, iva: { valor: string; fuente: Fuente; detall
     { ruta: "posiciones[0].cantidad", valor: s.cantidad, fuente: "solicitud", detalle: "cantidad" },
     {
       ruta: "posiciones[0].unidad",
-      valor: inferirUnidad(s.descripcion),
+      valor: inferirUnidad(s.descripcion, s.cantidad),
       fuente: "derivado",
-      detalle: "inferida de la descripción (horas → H, mes → MES, otro → UN)",
+      detalle: "inferida de la descripción (horas → H, <cantidad> meses/mensual → MES, otro → UN)",
     },
     {
       ruta: "posiciones[0].precio_unitario",

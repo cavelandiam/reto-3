@@ -80,10 +80,16 @@ export function contieneAprobado(cuerpo: string): boolean {
   return /\baprobad[oa]\b/i.test(cuerpo)
 }
 
-/** Unidad SAP inferida de la descripción: horas → H, mes/mensual → MES, otro → UN. */
-export function inferirUnidad(descripcion: string): "UN" | "H" | "MES" {
+/**
+ * Unidad SAP inferida de la descripción. Una mención de meses solo cuenta si acompaña a la cantidad
+ * ("6 meses de soporte" con cantidad 6), para no confundir "vigencia 12 meses" de 120 licencias.
+ * horas → H; "<cantidad> meses" o "mensual" → MES; otro → UN.
+ */
+export function inferirUnidad(descripcion: string, cantidad?: number): "UN" | "H" | "MES" {
   if (/\bhoras?\b/i.test(descripcion)) return "H"
-  if (/\bmes(es)?\b|mensual/i.test(descripcion)) return "MES"
+  const mesesDeCantidad =
+    cantidad !== undefined && new RegExp(`\\b${cantidad}\\s+mes(es)?\\b`, "i").test(descripcion)
+  if (mesesDeCantidad || /\bmensual(es)?\b/i.test(descripcion)) return "MES"
   return "UN"
 }
 

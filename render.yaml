@@ -1,0 +1,20 @@
+# Blueprint de Render: Web Service desde el Dockerfile. Las claves se cargan en el panel (sync: false).
+services:
+  - type: web
+    name: reto03-ordenes-compra
+    runtime: docker
+    plan: free
+    healthCheckPath: /api/health
+    envVars:
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: ACCESS_KEY
+        sync: false
+      - key: LLM_EFFORT
+        value: medium
+      - key: AGENT_MAX_ITERATIONS
+        value: "25"
+      - key: SESSION_MAX_TOKENS
+        value: "400000"
+      - key: RATE_LIMIT_POR_MINUTO
+        value: "20"

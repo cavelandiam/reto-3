@@ -12,7 +12,7 @@
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
-    "types": ["bun-types"]
+    "types": ["bun-types", "node"]
   },
   "include": ["src", "tests", "scripts", "modulo", "demo.ts"]
 }

@@ -35,7 +35,7 @@ Las variables se leen de `.env` (copia `.env.example`). Sin clave el servidor ar
 | `LLM_TIMEOUT_MS` | `60000` | Timeout por llamada al modelo. |
 | `LLM_MAX_TOKENS_RESPUESTA` | `4096` | Máximo de tokens por respuesta del modelo. |
 | `AGENT_MAX_ITERATIONS` | `25` | Tope de iteraciones herramienta → modelo por turno (CA1). |
-| `SESSION_MAX_TOKENS` | `200000` | Tope de tokens por sesión (costo). |
+| `SESSION_MAX_TOKENS` | `500000` | Tope de tokens por sesión, contando los leídos de caché (≈ 5 casos; ver costo en SOLUCION.md §4). |
 | `RATE_LIMIT_POR_MINUTO` | `20` | Mensajes por minuto por IP en `/api/chat`. |
 | `PORT` | `3000` | Puerto HTTP. |
 | `ACCESS_KEY` | — | Si se define, `/api/*` (excepto `/api/health`) exige el header `x-access-key`. |

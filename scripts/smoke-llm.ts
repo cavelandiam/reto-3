@@ -136,7 +136,8 @@ async function main(): Promise<void> {
     if (a1 && a2) {
       verificar(a1.needsConfirmation && !creo(a1), "sol-004: pide confirmación y no crea en el primer turno")
       verificar(a1.reply.includes("25.000.000") && a1.reply.includes("26.500.000"), "muestra ambos valores")
-      verificar(a1.reply.trim().endsWith("?"), "termina el turno con una pregunta")
+      // La pregunta puede ir en negrita ("…?**").
+      verificar(/\?[*_\s]*$/.test(a1.reply), "termina el turno con una pregunta")
       verificar(/\|.*\|/.test(a1.reply), "muestra la OC en tabla")
       verificar(creo(a2) && a2.reply.includes("4500000001"), "tras 'Confirmo' crea la OC 4500000001")
       verificar(a2.reply.includes("aprobacion"), "muestra la ruta de la evidencia")

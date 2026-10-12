@@ -15,6 +15,6 @@ services:
       - key: AGENT_MAX_ITERATIONS
         value: "25"
       - key: SESSION_MAX_TOKENS
-        value: "400000"
+        value: "500000"
       - key: RATE_LIMIT_POR_MINUTO
         value: "20"

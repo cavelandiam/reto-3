@@ -73,9 +73,19 @@ El servidor (`server.ts`) y el ciclo (`agent/loop.ts`) no contienen reglas de ne
 
 **Costo estimado por caso.** Precios de `claude-opus-5-5` ([platform.claude.com/docs/en/about-claude/pricing](https://platform.claude.com/docs/en/about-claude/pricing)): entrada USD 4 / MTok, salida USD 20 / MTok, lectura de caché USD 0,20 / MTok, escritura de caché (5 min) USD 5 / MTok. El system prompt + definiciones de herramientas ocupan ≈ 6–7 mil tokens y un caso típico usa 4–6 llamadas al modelo (leer → validar → evidencia + payload → crear → respuesta).
 
-| Escenario medido con `bun run smoke:llm` | Llamadas | Entrada | Caché lectura | Caché escritura | Salida | USD |
-|---|---|---|---|---|---|---|
-| Se completa al ejecutar la prueba con modelo real | — | — | — | — | — | — |
+Medido con `bun run smoke:llm` el 2026-10-12 (`claude-opus-5-5`, esfuerzo `medium`):
+
+| Escenario | Turnos | Llamadas al modelo | Entrada sin caché | Caché lectura | Caché escritura | Salida | USD |
+|---|---|---|---|---|---|---|---|
+| sol-004 · prompt del PRD + "Confirmo" | 2 | 7 | 18 | 69.677 | 14.838 | 3.479 | 0,158 |
+| sol-001 · crea sin intervención | 1 | 5 | 12 | 52.488 | 3.959 | 2.818 | 0,087 |
+| sol-003 · bloqueada | 1 | 4 | 10 | 40.326 | 2.821 | 1.911 | 0,060 |
+| sol-005 · retroactiva + confirmación | 2 | 6 | 16 | 66.708 | 5.357 | 3.231 | 0,105 |
+| **Promedio por caso** | | 5,5 | | | | | **≈ 0,10** |
+
+Una segunda corrida minutos después, con el system prompt y las herramientas ya en caché, costó USD 0,104 / 0,070 / 0,048 / 0,087 (promedio ≈ 0,08 por caso) y pasó las mismas 14 verificaciones.
+
+La salida (tablas y explicación) es entre el 45 % y el 65 % del costo, y la caché resuelve casi toda la entrada: sin caché, la entrada de sol-004 habría costado USD 0,34 en vez de 0,09. A 1.000 OC/mes serían ≈ USD 100/mes con este modelo. El tope `SESSION_MAX_TOKENS` (500.000, contando tokens leídos de caché) deja procesar ≈ 5 casos por sesión, con un costo máximo de ≈ USD 0,5 por sesión.
 
 Alternativa más barata: `claude-sonnet-5-5` (USD 2 / 10 por MTok) o `claude-haiku-5-5` (USD 0,10 / 0,50) cambiando `LLM_MODEL`; como las reglas y los cálculos están en código, el modelo solo orquesta y redacta, lo que hace viable un modelo pequeño. Lo decidiría midiendo el mismo `smoke:llm` con cada modelo.
 

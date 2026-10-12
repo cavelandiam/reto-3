@@ -29,7 +29,7 @@ const EsquemaEntorno = z.object({
   LLM_TIMEOUT_MS: entero(60_000),
   LLM_MAX_TOKENS_RESPUESTA: entero(4096),
   AGENT_MAX_ITERATIONS: entero(25),
-  SESSION_MAX_TOKENS: entero(200_000),
+  SESSION_MAX_TOKENS: entero(500_000),
   RATE_LIMIT_POR_MINUTO: entero(20),
   PORT: entero(3000),
   ACCESS_KEY: textoOpcional,

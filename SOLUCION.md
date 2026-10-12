@@ -233,7 +233,7 @@ Matriz de cumplimiento:
 | §8 | Un comando; determinismo; seguridad; costo; robustez; sin `any`; zod | varios | verify + `seguridad.test.ts` |
 | §9.1 | SOLUCION.md con 12 secciones | este documento | verify |
 | §9.2 | README | `README.md` | revisión |
-| §9.3 | Link público | Render (`render.yaml`) | `/api/health` en vivo |
+| §9.3 | Link público | https://reto03-ordenes-compra.onrender.com (`render.yaml`) | `/api/health` en vivo y sol-002 procesado en producción |
 | §9.4 | Bonus `modulo/` sincronizado | `modulo/` | `modulo.test.ts` |
 | §9.5 | Entrega sin node_modules/out/.env | `.gitignore` | verify |
 | §11 | Prompt de demo produce el resultado esperado | todo | `bun run smoke:llm` |

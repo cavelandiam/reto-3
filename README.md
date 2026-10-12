@@ -2,8 +2,8 @@
 
 Agente que lee el paquete de una compra (solicitud, cotización, aprobación y factura), lo valida contra los maestros con las reglas RC1–RC10, muestra la OC como quedaría en SAP con trazabilidad de cada valor, genera la evidencia de aprobación (TXT + PDF con SHA-256) y crea la OC en un SAP simulado. Los bloqueos nunca se fuerzan y las excepciones se confirman con la analista.
 
-**Link público:** se agrega aquí al desplegar en Render (ver [Despliegue](#despliegue)).
-**Clave de acceso:** si el despliegue define `ACCESS_KEY`, el front la pide una vez; se entrega por el mismo hilo del correo, no en el repositorio.
+**Link público:** <https://reto03-ordenes-compra.onrender.com> (estado: [/api/health](https://reto03-ordenes-compra.onrender.com/api/health)). Plan gratuito de Render: la primera visita tras inactividad tarda ~1 minuto en despertar.
+**Clave de acceso:** el link es público (sin `ACCESS_KEY`); el costo está acotado por rate limit por IP y topes de iteraciones y tokens por sesión.
 
 ## Requisitos
 

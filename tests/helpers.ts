@@ -24,3 +24,12 @@ export function escribirEnCaso(dir: string, caso: string, archivo: string, conte
 export function borrarEnCaso(dir: string, caso: string, archivo: string): void {
   rmSync(join(dir, "fixtures", "reto-03", "solicitudes", caso, archivo), { force: true })
 }
+
+/** Rutas de todas las hojas de un objeto: "a.b", "c[0].d". */
+export function hojas(valor: unknown, ruta = ""): string[] {
+  if (Array.isArray(valor)) return valor.flatMap((v, i) => hojas(v, `${ruta}[${i}]`))
+  if (typeof valor === "object" && valor !== null) {
+    return Object.entries(valor).flatMap(([k, v]) => hojas(v, ruta ? `${ruta}.${k}` : k))
+  }
+  return [ruta]
+}

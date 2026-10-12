@@ -255,6 +255,7 @@ Se usó **Claude (Anthropic)** en todo el ciclo, en dos momentos distintos:
 - **Diferencia en RC5.** En la prueba con el modelo real, el grounding detectó que el modelo restaba montos por su cuenta ("1.500.000 por debajo de la cotización"). Se corrigió en la herramienta, que ahora entrega la diferencia calculada, en lugar de confiar solo en el prompt.
 - **Confirmación humana.** Se descartó dejarla solo en el prompt: se impuso en el servidor, porque es una regla de control y no de estilo.
 - **Despliegue y claves.** La IA no manejó la clave del proveedor: se configuró en `.env` local y en el panel de Render, fuera del chat y del repositorio.
+- **Costo del proveedor.** Para usar el modelo en el agente (chat local, link público y pruebas con modelo real) se hizo un pago a la API de Anthropic con cuenta propia del candidato. Los costos medidos por caso están en la sección 4.
 
 ## 12. Riesgos
 

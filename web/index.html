@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Órdenes de Compra SAP</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js" defer></script>
+    <script src="/app.js" defer></script>
+  </head>
+  <body>
+    <header class="barra">
+      <div class="marca">
+        <span class="logo" aria-hidden="true">OC</span>
+        <div>
+          <h1>Agente de órdenes de compra</h1>
+          <p id="estado" class="estado">Conectando…</p>
+        </div>
+      </div>
+      <div class="acciones">
+        <button id="nueva" class="secundario" type="button">Nueva sesión</button>
+        <button id="reset" class="secundario" type="button" title="Borra out/ (OC, control y sesiones)">Reiniciar demo</button>
+      </div>
+    </header>
+
+    <main class="contenedor">
+      <section id="chat" class="chat" aria-live="polite">
+        <div class="bienvenida">
+          <h2>¿Qué solicitud procesamos?</h2>
+          <p>
+            Leo el paquete (solicitud, cotización, aprobación y factura), lo valido contra los maestros, te muestro la
+            OC como quedaría en SAP y la creo cuando todo cumple. Las excepciones te las pregunto.
+          </p>
+        </div>
+      </section>
+
+      <div id="pensando" class="pensando" hidden>
+        <span class="punto"></span><span class="punto"></span><span class="punto"></span>
+        <span>Pensando y consultando herramientas…</span>
+      </div>
+
+      <section id="banner" class="banner" hidden role="alert">
+        <div>
+          <strong>Confirmación requerida</strong>
+          <p id="banner-detalle"></p>
+        </div>
+        <div class="banner-botones">
+          <button id="confirmar" type="button">Confirmar</button>
+          <button id="cancelar" class="secundario" type="button">Cancelar</button>
+        </div>
+      </section>
+
+      <div id="chips" class="chips"></div>
+
+      <form id="form" class="entrada">
+        <textarea
+          id="mensaje"
+          rows="2"
+          maxlength="4000"
+          placeholder="Ej.: Procesa la solicitud sol-001"
+          aria-label="Mensaje"
+          required
+        ></textarea>
+        <button id="enviar" type="submit">Enviar</button>
+      </form>
+    </main>
+  </body>
+</html>

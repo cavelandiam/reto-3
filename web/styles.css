@@ -1,0 +1,355 @@
+:root {
+  --fondo: #f6f7f9;
+  --superficie: #ffffff;
+  --borde: #e2e5ea;
+  --texto: #1c2430;
+  --suave: #5d6878;
+  --primario: #1f5fbf;
+  --primario-texto: #ffffff;
+  --usuario: #e8f0fc;
+  --ok: #1d7a46;
+  --error: #b42318;
+  --aviso-fondo: #fff4d6;
+  --aviso-borde: #e8b100;
+  --aviso-texto: #5c4300;
+  --codigo: #f1f3f6;
+  --radio: 10px;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --fondo: #12161c;
+    --superficie: #1a2028;
+    --borde: #2c3440;
+    --texto: #e6e9ee;
+    --suave: #9aa4b2;
+    --primario: #5b9bff;
+    --primario-texto: #0b1220;
+    --usuario: #1f2c42;
+    --ok: #4cc38a;
+    --error: #ff7a6e;
+    --aviso-fondo: #3a2f0b;
+    --aviso-borde: #c99a00;
+    --aviso-texto: #ffe08a;
+    --codigo: #222a35;
+    color-scheme: dark;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* El atributo hidden debe ganar a los display:flex de abajo. */
+.banner[hidden],
+.pensando[hidden] {
+  display: none;
+}
+
+body {
+  margin: 0;
+  background: var(--fondo);
+  color: var(--texto);
+  font:
+    15px / 1.5 system-ui,
+    -apple-system,
+    "Segoe UI",
+    Roboto,
+    sans-serif;
+}
+
+button {
+  font: inherit;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  padding: 8px 14px;
+  background: var(--primario);
+  color: var(--primario-texto);
+  cursor: pointer;
+}
+button.secundario {
+  background: transparent;
+  color: var(--texto);
+  border-color: var(--borde);
+}
+button:disabled {
+  opacity: 0.55;
+  cursor: wait;
+}
+
+.barra {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 12px 16px;
+  background: var(--superficie);
+  border-bottom: 1px solid var(--borde);
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+.marca {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.logo {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: var(--primario);
+  color: var(--primario-texto);
+  font-weight: 700;
+}
+h1 {
+  font-size: 16px;
+  margin: 0;
+}
+.estado {
+  margin: 0;
+  font-size: 12px;
+  color: var(--suave);
+}
+.acciones {
+  display: flex;
+  gap: 8px;
+}
+
+.contenedor {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: calc(100vh - 62px);
+}
+
+.chat {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.bienvenida {
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  padding: 16px;
+}
+.bienvenida h2 {
+  margin: 0 0 6px;
+  font-size: 18px;
+}
+.bienvenida p {
+  margin: 0;
+  color: var(--suave);
+}
+
+.mensaje {
+  border-radius: var(--radio);
+  padding: 12px 14px;
+  border: 1px solid var(--borde);
+  background: var(--superficie);
+  overflow-wrap: anywhere;
+}
+.mensaje.usuario {
+  align-self: flex-end;
+  background: var(--usuario);
+  max-width: 85%;
+  white-space: pre-wrap;
+}
+.mensaje.asistente {
+  align-self: stretch;
+}
+.mensaje.asistente.pide {
+  border-color: var(--aviso-borde);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--aviso-borde) 30%, transparent);
+}
+.mensaje.error {
+  border-color: var(--error);
+  color: var(--error);
+}
+.contenido > :first-child {
+  margin-top: 0;
+}
+.contenido > :last-child {
+  margin-bottom: 0;
+}
+.contenido table {
+  border-collapse: collapse;
+  display: block;
+  overflow-x: auto;
+  margin: 8px 0;
+  font-size: 14px;
+}
+.contenido th,
+.contenido td {
+  border: 1px solid var(--borde);
+  padding: 4px 8px;
+  text-align: left;
+  vertical-align: top;
+}
+.contenido th {
+  background: var(--codigo);
+}
+.contenido code,
+pre {
+  background: var(--codigo);
+  border-radius: 6px;
+}
+.contenido code {
+  padding: 1px 4px;
+}
+
+.herramientas {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+.tool {
+  border: 1px solid var(--borde);
+  border-radius: 8px;
+  background: var(--fondo);
+  font-size: 13px;
+}
+.tool summary {
+  cursor: pointer;
+  padding: 6px 10px;
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+  flex-wrap: wrap;
+}
+.tool .badge {
+  font-weight: 700;
+}
+.tool .badge.ok {
+  color: var(--ok);
+}
+.tool .badge.ko {
+  color: var(--error);
+}
+.tool .nombre {
+  font-family: ui-monospace, Consolas, monospace;
+  font-weight: 600;
+}
+.tool .resumen {
+  color: var(--suave);
+  flex: 1 1 260px;
+}
+.tool .duracion {
+  color: var(--suave);
+  font-variant-numeric: tabular-nums;
+}
+.tool pre {
+  margin: 0 10px 10px;
+  padding: 8px;
+  overflow-x: auto;
+  max-height: 260px;
+  font-size: 12px;
+}
+
+.pensando {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  color: var(--suave);
+  font-size: 14px;
+}
+.punto {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--primario);
+  animation: latido 1s infinite ease-in-out;
+}
+.punto:nth-child(2) {
+  animation-delay: 0.15s;
+}
+.punto:nth-child(3) {
+  animation-delay: 0.3s;
+}
+@keyframes latido {
+  0%,
+  100% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  background: var(--aviso-fondo);
+  border: 1px solid var(--aviso-borde);
+  color: var(--aviso-texto);
+  border-radius: var(--radio);
+  padding: 12px 14px;
+}
+.banner p {
+  margin: 2px 0 0;
+}
+.banner-botones {
+  display: flex;
+  gap: 8px;
+}
+.banner .secundario {
+  color: var(--aviso-texto);
+  border-color: var(--aviso-borde);
+}
+
+.chips {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.chips button {
+  background: var(--superficie);
+  color: var(--texto);
+  border-color: var(--borde);
+  padding: 4px 10px;
+  font-size: 13px;
+  border-radius: 999px;
+}
+
+.entrada {
+  display: flex;
+  gap: 8px;
+  position: sticky;
+  bottom: 0;
+  padding: 8px 0 12px;
+  background: var(--fondo);
+}
+.entrada textarea {
+  flex: 1;
+  min-width: 0;
+  resize: vertical;
+  font: inherit;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid var(--borde);
+  background: var(--superficie);
+  color: var(--texto);
+}
+
+@media (max-width: 600px) {
+  .mensaje.usuario {
+    max-width: 100%;
+  }
+  .acciones button {
+    padding: 6px 10px;
+    font-size: 13px;
+  }
+}
